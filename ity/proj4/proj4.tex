@@ -1,0 +1,59 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[left=2cm,text={17cm, 24cm},top=3cm]{geometry}
+\usepackage[czech]{babel}
+\usepackage{times}
+\usepackage[unicode]{hyperref}
+\usepackage[utf8]{inputenc}
+
+
+\begin{document}
+    \begin{titlepage}
+        \begin{center}
+        	{\Huge\textsc{
+				Vysoké učení technické v~Brně  \\
+			}}
+			{\huge\textsc{
+				Fakulta informačních technologií \\
+			}}
+			\vspace{\stretch{0.382}}
+			{\LARGE{Typografie a publikování \,--\, 4. projekt \\
+			}}
+			{\Huge
+			{Bibliograf{}ické citace
+			}}
+			\vspace{\stretch{0.618}}
+        \end{center}
+
+        {\Large{\today \hfill Filip Pospíšil
+        }}
+    \end{titlepage}
+
+    \section{Typgorafie}
+    \subsection{Historie}
+    Typgorafie začla vznikat již v roce 1444, když \textit{Johannes Gutenberg} vynalezl knihtisk. Od této doby je typografie běžnou součástí zpracování textu. Významný rozmach osobních počítačů a příslušesného softrwérového vybavení vedl k výzmanému posonu vpřed. \cite{Rybicka}
+
+    \subsection{Oficiální typografická pravidla}
+    Typografie ani žádná její součást není zakotvená v právním systému České republiky. Typografii  dokumentů od klasifikace písma až po korekturní značky v ČR dříve upravovala řada státních  technických norem ČSN. Konkrétně 88. třída státních norem nesoucí název Průmysl polygrafický.  Tyto normy však postupem času mizely. Byly redukovány, rušeny, případně nahrazovány. Nejčastěji  však jednoduše rušeny výmazem. A tak nyní, s platností od 1. 1. 2006, obsahuje celá třída Průmysl  polygrafický pouze 5 norem. \cite{Sirucek}
+
+    \section{\LaTeX}
+    \LaTeX\ je typografický sázecí systém určený na tvorbu dokumentů. Lze v něm vytvářet jednoduché dokumenty stejně jako rosáhle knihy. Systém \TeX\ i samotný \LaTeX\ je otevřený software dostupný zcela zdarma. O rodzílech mezi systémy \TeX\ a \LaTeX pojednává \cite{Helmut}.
+
+    \subsection{Proč \LaTeX}
+    \LaTeX ová komunita je velmi rozšířená nejen ve světe. V Česku i na Slovensku má nezpochynitelné zastoupení taktéž. Výsledekem je velké množství stránek, na kterých se \LaTeX oví nadšenci sdružují, viz \cite{cstug}. Komunita uživatelů se pravidelně setkává a pořádá konference, na kterých seznamuje veřejnost s věcmi z oblasti typografie. Jednou z akcí je například \textit{TypoBerlin} Dále také existuje spousta časopisů, která se otázkou typografie zaobírá, např. časopis \cite{Typo}.
+
+    Silnou stárnkou \LaTeX u je také možnost sázení matematických výrazů. Existují i nástroje, které zvládnou převést ručně psaný text do podoby \LaTeX ového kódu, viz \cite{Oksuz}. Pro rozsáhlé dokumenty se spostou matematických výrazů, obrázků, tabulkama atd. je výhodnější použít \LaTeX\ než ediory typu MS Word. \cite{Martinek} Příklady vysázených rovnic pomocí \LaTeX u lze najít například v \cite{Castro}.
+
+    \subsection{Nevýhody \LaTeX u}
+    Článek \cite{Olsak} mezi hlavní nevýhody \LaTeX u uvádí například nedostatečnost jazyka \TeX, utajování některých skutečností v \LaTeX ových a \TeX ových příručkách, nerozlišování mezi \LaTeX em a \TeX em. Dále uvádí nevhodné struktuované značkování, předzpracované styly a složitost maker. Více viz \cite{Olsak}.
+
+    \section{Závěr}
+    \LaTeX\ patří k velice silným nástrojům, který zvládá profesionální sazbu dokumentů a po zvládnutí začátečních kroků je prostředím velmi přátelský. \cite{Bojko}
+
+
+
+    \newpage
+	\bibliographystyle{czechiso}
+	\renewcommand{\refname}{Literatura}
+	\bibliography{proj4}
+
+\end{document}
