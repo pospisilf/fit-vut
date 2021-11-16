@@ -1,4 +1,4 @@
-# IZP - Introduction to Programming Systems 
+# IZP - Introduction to Programming Systems
 7 credits, 1BIT/WINTER
 
 ## Projects: 
