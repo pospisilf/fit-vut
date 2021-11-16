@@ -2,5 +2,5 @@
 5 credits, 1BIT/WINTER
 
 ## Projects: 
-   * Model of information system
+   * 1: Model of information system [UML]
      * ``13/25``
