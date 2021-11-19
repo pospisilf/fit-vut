@@ -1,0 +1,127 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.std_logic_arith.all;
+use IEEE.std_logic_unsigned.all;
+
+-- rozhrani Vigenerovy sifry
+entity vigenere is
+   port(
+         CLK : in std_logic;
+         RST : in std_logic;
+         DATA : in std_logic_vector(7 downto 0);
+         KEY : in std_logic_vector(7 downto 0);
+
+         CODE : out std_logic_vector(7 downto 0)
+    );
+end vigenere;
+
+-- V souboru fpga/sim/tb.vhd naleznete testbench, do ktereho si doplnte
+-- znaky vaseho loginu (velkymi pismeny) a znaky klice dle vaseho prijmeni.
+
+architecture behavioral of vigenere is
+
+    -- Sem doplnte definice vnitrnich signalu, prip. typu, pro vase reseni,
+    -- jejich nazvy doplnte tez pod nadpis Vigenere Inner Signals v souboru
+    -- fpga/sim/isim.tcl. Nezasahujte do souboru, ktere nejsou explicitne
+    -- v zadani urceny k modifikaci.
+	
+	signal displacement: std_logic_vector(7 downto 0);
+	signal displacement_plus: std_logic_vector(7 downto 0);
+	signal displacement_minus: std_logic_vector(7 downto 0);
+
+	type tState is (plus, minus);
+	signal state: tState := plus;
+	signal nextState: tState := minus;
+
+	signal fsmOutput: std_logic_vector(1 downto 0);
+
+begin
+
+    -- Sem doplnte popis obvodu. Doporuceni: pouzivejte zakladni obvodove prvky
+    -- (multiplexory, registry, dekodery,...), jejich funkce popisujte pomoci
+    -- procesu VHDL a propojeni techto prvku, tj. komunikaci mezi procesy,
+    -- realizujte pomoci vnitrnich signalu deklarovanych vyse.
+
+    -- DODRZUJTE ZASADY PSANI SYNTETIZOVATELNEHO VHDL KODU OBVODOVYCH PRVKU,
+    -- JEZ JSOU PROBIRANY ZEJMENA NA UVODNICH CVICENI INP A SHRNUTY NA WEBU:
+    -- http://merlin.fit.vutbr.cz/FITkit/docs/navody/synth_templates.html.
+
+
+	--- signal state ---
+	stateLogic: process(CLK, RST) is
+	begin
+		if RST = '1' then
+			state <= plus;
+		elsif rising_edge(CLK) then
+			state <= nextState;
+		end if;
+	end process;
+	
+	--- mealy logic
+	mealy: process(state, DATA, RST) is
+	begin
+		nextState <= state;
+
+		case state is
+			when plus =>
+				nextState <= minus;
+				fsmOutput <= "01";
+			when minus => 
+				nextState <= plus;
+				fsmOutput <= "10";
+		end case;
+
+		if (DATA > 47 and DATA < 58) then
+		       fsmOutput <= "00";
+	       	end if;		
+
+
+		if RST = '1' then
+			fsmOutput <= "00";
+		end if;
+
+	end process;
+
+	--- multiplexor
+	multiplexor: process(fsmOutput) is
+	begin 
+		if fsmOutput = "01" then
+			CODE <= displacement_plus;
+		elsif fsmOutput = "10" then
+			CODE <= displacement_minus;
+		else
+			CODE <= "00100011";
+		end if;
+	end process;
+
+	--- displacementing ---
+	displacementProcess: process(DATA, KEY) is
+	begin
+		displacement <= key - 64; -- ascii value
+	end process;
+	
+	displecmentPositive: process(displacement, DATA) is
+		variable tmp: std_logic_vector(7 downto 0);
+	begin
+		tmp := DATA-7;
+		tmp := tmp+displacement;
+		if (tmp > 90) then
+			tmp := tmp-26;
+		end if;
+		displacement_plus <= tmp;
+	end process;
+
+	displacementNegative: process(displacement, DATA) is
+		variable tmp: std_logic_vector(7 downto 0);
+	begin
+		tmp := DATA-7;
+		tmp := tmp-displacement;
+		if (tmp < 65) then
+			tmp := tmp+26;
+		end if;
+		displacement_minus <= tmp;
+	end process;
+	
+
+
+end behavioral;
