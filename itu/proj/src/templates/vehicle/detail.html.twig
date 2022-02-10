@@ -1,0 +1,209 @@
+{% extends 'base.html.twig' %}
+{# Author: Tomáš Lisický (xlisic01) #}
+
+{% block title %}{{vehicle.nickname}} | CarInfo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{% block body %}
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<ul class="nav navbar-nav">
+		{% if app.user %}
+			<li><a href={{path('main')}}>Home</a></li>
+			<li><a class="active" href={{path('vehicle')}}>My Garage</a></li>
+		{% endif %}
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+		{% if app.user %}
+			<li><a href="#"><span class="glyphicon glyphicon-user"></span> {{ app.user.username }}</a></li>
+			<li><a href={{path('app_logout')}}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+		{% else %}
+			<li><a href={{path('app_register')}}><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+			<li><a href={{path('app_login')}}><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		{% endif %}
+		</ul>
+	</div>
+</nav>
+
+<br><br><br>
+
+<div class="content container">
+	<div class="row">
+		<div class="col-sm-6">
+			<a class="btn btn-lg btn-primary glyphicon glyphicon-triangle-left" href="{{ path('vehicle')}}" role="button"></a>
+			<h1>Vehicle detail - {{vehicle.nickname}}
+		</div>
+		<div class="col-sm-6 text-right">
+			<a class="btn btn-lg btn-warning glyphicon glyphicon-pencil" href="{{ path('vehicle_edit', {id: vehicle.id}) }}" role="button"></a>
+			<a class="btn btn-lg btn-danger glyphicon glyphicon-trash" href="{{ path('vehicle_delete', {id: vehicle.id}) }}" role="button"></a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+			<dl>
+				<dt>Brand: </dt>
+				<dd> {{vehicle.brand.name}} </dd>
+			</dl>
+			<dl>
+				<dt>Model: </dt>
+				<dd> {{vehicle.model.name}} </dd>
+			</dl>
+			<dl>
+				<dt>SPZ: </dt>
+				<dd> {{vehicle.spz}} </dd>
+			</dl>
+			<dl>
+				<dt>VIN: </dt>
+				<dd> {{vehicle.vin}} </dd>
+			</dl>
+			<dl>
+				<dt>Year: </dt>
+				<dd> {{vehicle.year}} </dd>
+			</dl>
+			<dl>
+				<dt>STK valid until: </dt>
+				<dd> 
+				{% if vehicle.stk %}
+					{{vehicle.stk|date('d-m-Y')}}
+				{% else %}
+					N/A
+				{% endif %} 
+				</dd>
+			</dl>
+		</div>
+		<div class="col-sm-3">
+			<dl>
+				<dt>Engine: </dt>
+				<dd> {{vehicle.engine.code}} </dd>
+				<dd> {{vehicle.engine.cylinders}} cylinders</dd>
+				<dd> {{vehicle.engine.capacity}} cm<sup>3</sup></dd>
+				<dd> {{vehicle.engine.power}} kW</dd>
+			</dl>
+			<dl>
+				<dt>Fuel: </dt>
+				<dd> {{vehicle.fuel}} </dd>
+			</dl>
+			<dl>
+				<dt>Transmission: </dt>
+				<dd> {{vehicle.transmition}} </dd>
+			</dl>
+			<dl>
+				<dt>Wheel drive: </dt>
+				<dd> {{vehicle.wheeldrive}} </dd>
+			</dl>
+			<dl>
+				<dt>Odometer: </dt>
+				<dd> {{vehicle.odometer}} km </dd>
+			</dl>
+		</div>
+		<div class="col-sm-6">
+			{% if refuels %}
+				<table class="table table-hover">
+					<caption>Last three refuels: </caption>
+					<thead>
+						<tr>
+							<th scope="col">date</th>
+							<th scope="col">amount</th>
+							<th scope="col">price</th>
+							<th scope="col">mileage</th>
+							<th scope="col">gas station</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for refuel in refuels %}
+							<tr>
+								<td>{{ refuel.date|date('d-m-Y') }}</td>
+								<td>{{ refuel.amount }}</td>
+								<td>{{ refuel.price }}</td>
+								<td>{{ refuel.mileage }}</td>
+								<td>{{ refuel.gasstation.name }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			{% endif %}
+			{% if refuels %}
+				<div class="text-right">
+					<p>
+						<a class="btn btn-primary" href="{{ path('fuel_refuel', {id: vehicle.id}) }}" role="button">add new refuel record</a>
+						 | 
+						<a class="btn btn-primary" href="{{ path('view_all_refuels', {id: vehicle.id}) }}" role="button">view all refuels</a>
+					</p>
+				</div>
+			{% else %}
+				<div class="text-right">
+					<p>
+						<h3>No refuel records</h3>
+						<a class="btn btn-primary" href="{{ path('fuel_refuel', {id: vehicle.id}) }}" role="button">Add new refuel record</a>
+					</p>
+				</div>
+			{% endif %}
+			
+			{% if services %}
+				<table class="table table-hover">
+					<caption>Last three service jobs: </caption>
+					<thead>
+						<tr>
+							<th scope="col">date</th>
+							<th scope="col">operation</th>
+							<th scope="col">mileage</th>
+							<th scope="col">price</th>
+							<th scope="col">note</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for service in services %}
+							<tr>
+								<td>{{service.date|date('d-m-Y')}}</td>
+								<td>{{ service.operation.name }}</td>
+								<td>{{ service.mileage }}</td>
+								<td>{{ service.price }}</td>
+								<td><a href="{{ path('service_detail', {id: service.id}) }}">see more</a></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			{% endif %}
+			{% if services %}
+				<div class="text-right">
+					<p>
+						<a class="btn btn-primary" href="{{ path('service_add', {id: vehicle.id}) }}" role="button">add new service record</a>
+						 | 
+						<a class="btn btn-primary" href="{{ path('view_all_services', {id: vehicle.id}) }}" role="button">view all services</a>
+					</p>
+				</div>
+			{% else %}
+				<div class="text-right">
+					<p>
+						<h3>No service records</h3>
+						<a class="btn btn-primary" href="{{ path('service_add', {id: vehicle.id}) }}" role="button">Add new service record</a>
+					</p>
+				</div>
+			{% endif %}
+
+			
+			<span>
+				Fuel expenses: {{fuel_cost}}<br>
+				Service expenses: {{service_cost}}<br>
+				Total expenses: {{total_cost}}<br>
+			</span>
+		</div>
+	</div>
+</div>
+
+<br><br><br>
+
+<footer class="text-center">
+	<p>
+		Vyrobili: Filip Pospíšil (xpospi0f), Tomáš Lisický (xlisic01), Ondřej Bradáč (xbrada19)
+		<br>
+		za účelom projektu k predmetu ITU fakulty FIT, VUTBR - ITU projekt 2021
+	</p>
+</footer> 
+
+{% endblock %}

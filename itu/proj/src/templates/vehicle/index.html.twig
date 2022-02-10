@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+{# Author: Tomáš Lisický (xlisic01) #}
+
+{% block title %}My Garage | CarInfo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{% block body %}
+<div class="jumbotron text-center">
+	<h1>CarInfo</h1>
+</div>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<ul class="nav navbar-nav">
+		{% if app.user %}
+			<li><a href={{path('main')}}>Home</a></li>
+			<li class="active"><a href={{path('vehicle')}}>My Garage</a></li>
+		{% endif %}
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+		{% if app.user %}
+			<li><a href="#"><span class="glyphicon glyphicon-user"></span> {{ app.user.username }}</a></li>
+			<li><a href={{path('app_logout')}}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+		{% else %}
+			<li><a href={{path('app_register')}}><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+			<li><a href={{path('app_login')}}><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		{% endif %}
+		</ul>
+	</div>
+</nav>
+
+<div class="content container">
+	<h2>My Garage</h2>
+	<div class="container-fluid">
+		<div class="row">
+			{% for vehicle in vehicles %}
+				<div class="col-sm-3 col-sm-offset-* text-center panel well">
+					<a href={{path('vehicle_detail', {id: vehicle.id})}} class="btn btn-lg panel-body">
+						<span>
+							<b>{{ vehicle.nickname }}</b><br>
+							{{ vehicle.brand.name }}<br>
+							{{ vehicle.model.name }}<br>
+							<br>
+							{{ vehicle.SPZ }}<br>
+							{{ vehicle.VIN }}<br>
+						</span>
+					</a>
+				</div>	
+			{% endfor %}
+			<div class="col-sm-3 text-center panel well">
+				<br><br>
+				<a href={{path('vehicle_add')}} class="btn btn-lg panel-body">
+					<span style="font-size: 49px" class="glyphicon glyphicon-plus-sign">
+						<br><br>
+					</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+<footer class="text-center">
+	<p>
+		Vyrobili: Filip Pospíšil (xpospi0f), Tomáš Lisický (xlisic01), Ondřej Bradáč (xbrada19)
+		<br>
+		za účelom projektu k predmetu ITU fakulty FIT, VUTBR - ITU projekt 2021
+	</p>
+</footer> 
+{% endblock %}

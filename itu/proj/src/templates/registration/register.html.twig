@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+{# Author: Tomáš Lisický (xlisic01) #}
+
+{% block title %}Register{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{% block body %}
+<div class="content container"> 
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4 well well-lg">
+			<h1 class="jumbotron text-center">Register</h1>
+			{{ form_start(registrationForm) }}
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Email: </label>
+						<br>
+						{{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="col-sm-6 form-group">
+						<label>Password: </label>
+						<br>
+						{{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>First name: </label>
+						<br>
+						{{ form_widget(registrationForm.first_name, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="col-sm-6 form-group">
+						<label>Surname: </label>
+						<br>
+						{{ form_widget(registrationForm.surname, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Date of Birth: </label>
+						<br>
+						{{ form_widget(registrationForm.birth_date, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-4 form-group">
+						<label>Sex: </label>
+						<br>
+						{{ form_widget(registrationForm.sex, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="form-group">
+				<div class="row">
+					<div class="col-sm-12 form-group">
+						<label>I agree with terms: </label>
+						{{ form_widget(registrationForm.agreeTerms) }}
+					</div>
+				</div>
+
+				<button type="submit" class="btn btn-lg btn-primary">Register</button>
+			{{ form_end(registrationForm) }}
+		</div>
+		<div class="col-sm-4"></div>
+	</div>
+</div>
+{% endblock %}

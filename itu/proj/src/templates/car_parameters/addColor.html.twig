@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{# Author: Tomáš Lisický (xlisic01) #}
+
+{% block title %}Add addColor | CarInfo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{% block body %}
+<div class="content container"> 
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4 well well-lg">
+			<h1 class="jumbotron text-center">Add color</h1>
+			{{ form_start(addColor) }}
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Color: </label>
+						<br>
+						{{ form_widget(addColor.name, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<button type="submit" class="btn btn-lg btn-primary">Add color</button>
+				<a class="btn btn-lg btn-danger col-sm-offset-2" href="{{ app.request.headers.get('referer') }}" role="button">Cancel</a>
+			{{ form_end(addColor) }}
+		</div>
+		<div class="col-sm-4"></div>
+	</div>
+</div>
+
+{% endblock %}

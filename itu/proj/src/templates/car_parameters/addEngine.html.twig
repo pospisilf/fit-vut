@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{# Author: Tomáš Lisický (xlisic01) #}
+
+{% block title %}Add engine | CarInfo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{% block body %}
+<div class="content container"> 
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4 well well-lg">
+			<h1 class="jumbotron text-center">Add engine</h1>
+			{{ form_start(addEngine) }}
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Engine code: </label>
+						<br>
+						{{ form_widget(addEngine.code, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="col-sm-6 form-group">
+						<label>Power [kW]: </label>
+						<br>
+						{{ form_widget(addEngine.power, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Number of cylinders: </label>
+						<br>
+						{{ form_widget(addEngine.cylinders, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="col-sm-6 form-group">
+						<label>Fuel capacity [cm<sup>3</sup>]: </label>
+						<br>
+						{{ form_widget(addEngine.capacity, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<button type="submit" class="btn btn-lg btn-primary">Add brand</button>
+				<a class="btn btn-lg btn-danger col-sm-offset-2" href="{{ app.request.headers.get('referer') }}" role="button">Cancel</a>
+			{{ form_end(addEngine) }}
+		</div>
+	</div>
+</div>
+
+{% endblock %}

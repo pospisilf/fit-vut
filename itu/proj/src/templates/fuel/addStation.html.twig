@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add station | CarInfo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{% block body %}
+<nav class="navbar navbar-inverse navbar-static-top">
+	<div class="container-fluid">
+		<ul class="nav navbar-nav">
+		{% if app.user %}
+			<li><a href={{path('vehicle')}}>My Garage</a></li>
+			<li><a href={{path('service')}}>Service</a></li>
+		{% endif %}
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+		{% if app.user %}
+			<li><a href="#"><span class="glyphicon glyphicon-user"></span> {{ app.user.username }}</a></li>
+			<li><a href={{path('app_logout')}}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+		{% else %}
+			<li><a href={{path('app_register')}}><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+			<li><a href={{path('app_login')}}><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		{% endif %}
+		</ul>
+	</div>
+</nav>
+
+
+<div class="container well well-lg text-center">
+    <div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4">
+			<h2 style="font-weight: bold;">Add Station</h2>
+		</div>
+	</div>	
+
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4">
+			{{ form_start(addStation) }}
+			{{ form_widget(addStation.name,{'attr': {'placeholder': 'name'}}) }}
+			<br>
+		</div>
+	</div>
+	
+	<div class="row">
+		<br>
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4">
+			<button type="submit" class="btn btn-primary">Add </button>
+		</div>
+	</div>
+	{{ form_end(addStation) }}
+
+</div>
+
+
+{% endblock %}

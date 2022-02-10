@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+{# Author: Tomáš Lisický (xlisic01) #}
+
+{% block title %}Add vehicle | CarInfo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{% block body %}
+<div class="content container"> 
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4 well well-lg">
+			<h1 class="jumbotron text-center">Add vehicle</h1>
+			{{ form_start(addVehicle) }}
+			
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Nickname: </label>
+						<br>
+						{{ form_widget(addVehicle.nickname, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="col-sm-6 form-group">
+						<label>Color: </label>
+						<br>
+						{{ form_widget(addVehicle.color, {'attr': {'class': 'form-control'}}) }}
+						<a href="{{path('add_color')}}">add color</a>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Brand: </label>
+						<br>
+						{{ form_widget(addVehicle.brand, {'attr': {'class': 'form-control'}}) }}
+						<a href="{{path('add_brand')}}">add brand</a>
+					</div>
+					<div class="col-sm-6 form-group">
+						<label>Model: </label>
+						<br>
+						{{ form_widget(addVehicle.model, {'attr': {'class': 'form-control'}}) }}
+						<a href="{{path('add_model')}}">add model</a>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>SPZ: </label>
+						<br>
+						{{ form_widget(addVehicle.SPZ, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="col-sm-6 form-group">
+						<label>VIN: </label>
+						<br>
+						{{ form_widget(addVehicle.VIN, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-4 form-group">
+						<label>Engine: </label>
+						<br>
+						{{ form_widget(addVehicle.engine, {'attr': {'class': 'form-control'}}) }}
+						<a href="{{path('add_engine')}}">add engine</a>
+					</div>
+					<div class="col-sm-4 form-group">
+						<label>Fuel type: </label>
+						<br>
+						{{ form_widget(addVehicle.fuel, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="col-sm-4 form-group">
+						<label>Wheel drive: </label>
+						<br>
+						{{ form_widget(addVehicle.wheeldrive, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Transmission: </label>
+						<br>
+						{{ form_widget(addVehicle.transmition, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Year of manufacture: </label>
+						<br>
+						{{ form_widget(addVehicle.year, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="col-sm-6 form-group">
+						<label>Odometer: </label>
+						<br>
+						{{ form_widget(addVehicle.odometer, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-12 form-group">
+						<label>STK expiration date: </label>
+						<br>
+						{{ form_widget(addVehicle.stk, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-6">
+						<button type="submit" class="btn btn-lg btn-primary">Add vehicle</button>
+					</div>
+					<div class="col-sm-6 text-right">
+						<a class="btn btn-lg btn-danger" href="{{ app.request.headers.get('referer') }}" role="button">Cancel</a>
+					</div>
+				</div>
+			{{ form_end(addVehicle) }}
+		</div>
+		<div class="col-sm-4"></div>
+	</div>
+</div>
+
+{% endblock %}

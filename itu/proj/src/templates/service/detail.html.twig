@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+{# Author: Tomáš Lisický (xlisic01) #}
+
+{% block title %}Service detail | CarInfo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{% block body %}
+<div class="content container">
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4 well well-lg">
+			<h1 class="jumbotron text-center">Service detail</h1>
+			<div class="row">
+				<div class="col-sm-6 form-group">
+					<dl>
+						<dt>Date of service (DoS): </dt>
+						<dd> {{service.date|date('d-m-Y')}} </dd>
+					</dl>
+				</div>
+				<div class="col-sm-6 form-group">
+					<dl>
+						<dt>Mileage at DoS: </dt>
+						<dd> {{service.mileage}} </dd>
+					</dl>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6 form-group">
+					<dl>
+						<dt>Operation: </dt>
+						<dd> {{ service.operation.name }} </dd>
+					</dl>
+				</div>
+				<div class="col-sm-6 form-group">
+					<dl>
+						<dt>Category: </dt>
+						<dd> {{ service.operation.category.name }} </dd>
+					</dl>
+				</div>
+			</div>
+			<div class="row">
+				{% if service.operation.intervalkm %}
+				<div class="col-sm-6 form-group">
+					<dl>
+						<dt>Interval [km]: </dt>
+						<dd> {{ service.operation.intervalkm }} </dd>
+					</dl>
+				</div>
+				{% endif %}
+				{% if service.operation.intervaltime %}
+				<div class="col-sm-6 form-group">
+					<dl>
+						<dt>Interval [time]: </dt>
+						<dd> {{ service.operation.intervaltime }} </dd>
+					</dl>
+				</div>
+				{% endif %}
+			</div>
+			<div class="row">
+				{% if service.operation.Description %}
+				<div class="col-sm-6 form-group">
+					<dl>
+						<dt>Description: </dt>
+						<dd> {{ service.operation.Description }} </dd>
+					</dl>
+				</div>
+				<div class="col-sm-6 form-group">
+					<dl>
+						<dt>Price: </dt>
+						<dd> {{ service.price }} </dd>
+					</dl>
+				</div>
+				{% endif %}
+			</div>
+			<div class="row">
+				{% if service.note %}
+				<div class="col-sm-6 form-group">
+					<dl>
+						<dt>Note: </dt>
+						<dd> {{ service.note }} </dd>
+					</dl>
+				</div>
+				{% endif %}
+			</div>
+			<div class="row">
+				<div class="col-sm-12 text-right">
+					<a class="btn btn-lg btn-danger" href="{{ app.request.headers.get('referer') }}" role="button">Leave</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

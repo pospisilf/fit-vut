@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{# Author: Tomáš Lisický (xlisic01) #}
+
+{% block title %}Add brand | CarInfo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{% block body %}
+<div class="content container"> 
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4 well well-lg">
+			<h1 class="jumbotron text-center">Add brand</h1>
+			{{ form_start(addBrand) }}
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Brand name: </label>
+						<br>
+						{{ form_widget(addBrand.name, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Country of origin: </label>
+						<br>
+						{{ form_widget(addBrand.country, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<button type="submit" class="btn btn-lg btn-primary">Add brand</button>
+				<a class="btn btn-lg btn-danger col-sm-offset-2" href="{{ app.request.headers.get('referer') }}" role="button">Cancel</a>
+			{{ form_end(addBrand) }}
+		</div>
+		<div class="col-sm-4"></div>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+{# Author: Ondřej Bradáč (xbrada19)#}
+
+{% block title %}Refuel | CarInfo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{# DODELAVKA #}
+{% block javascripts %}
+<script language = "javascript" src = "https://code.jquery.com/jquery-2.2.4.min.js"></script> 
+<script src="../../../js/bootbox.js"></script>
+<script src="../../../js/bootstrap.js"></script>
+<script src="../../../js/popper.min.js"></script>
+<script>
+/*
+ * Schovani elemtru po nacteni dokumentu - pole na pridani cerpaci stanice. 
+ */
+	console.log("Hiding elements.");
+	window.onload = init;
+	function init(){
+		document.getElementById("addStationField").style.visibility = "hidden";
+	}
+</script>
+<script language = "javascript"> 
+/*
+ * Zobrazeni pole na pridani nove cerpaci stanice.
+ */
+	$(document).ready(function() {
+		$(".addStationFieldBtn").click(function(){
+			console.log("Showing elements.");
+			document.getElementById("addStationField").style.visibility = "visible";
+		});
+	});
+</script>
+<script>
+/*
+ * Vlozeni nove cerpaci stanice. 
+ */
+	function AddGasStation(){
+		console.log("Starting process of adding.!");
+		var stationName = document.getElementById("gasStationname").value;
+		console.log(stationName);
+
+		$url = '{{path('add_gas_station_ajax', { 'name': 0}) }}';
+		url = $url.replace("0",stationName);
+		$.ajax({ 
+			url: url,
+			type: 'post', 
+			success: function(result) {
+				console.log('Good');
+			},
+			error: function(e){
+				console.log(e.responseText);
+				}
+		});	
+
+		//Refresh List
+		$('#refreshHere').load(document.URL +  ' #refreshHere');			
+	}
+</script>
+{% endblock %}
+{# //DODELAVKA #}
+
+
+{% block body %}
+<nav class="navbar navbar-inverse navbar-static-top">
+	<div class="container-fluid">
+		<ul class="nav navbar-nav">
+		{% if app.user %}
+			<li><a href={{path('vehicle')}}>My Garage</a></li>
+			<li><a href={{path('service')}}>Service</a></li>
+			<li class="active" ><a href={{path('vehicle_detail',{id:vehicle.id})}}>Vehicle details</a></li>
+		{% endif %}
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+		{% if app.user %}
+			<li><a href="#"><span class="glyphicon glyphicon-user"></span> {{ app.user.username }}</a></li>
+			<li><a href={{path('app_logout')}}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+		{% else %}
+			<li><a href={{path('app_register')}}><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+			<li><a href={{path('app_login')}}><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		{% endif %}
+		</ul>
+	</div>
+</nav>
+
+{{ form_start(refuel) }}
+    <div class="container text-center">
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4 well well-lg">		
+			 <h1 class="jumbotron text-center">Add refuel</h1> 
+
+        <div class="row">
+		{{ form_row(refuel.price, {'attr': {'placeholder': 'czk', 'class': 'form-control'}}) }}
+        </div>
+	<br>
+
+	<div class="row">	
+		{{form_row(refuel.amount, {'attr': {'placeholder': 'litres', 'class': 'form-control'}})}}
+	</div>
+        <br>
+
+        <div class="row">
+                {{ form_label(refuel.date, null, {
+                'label': 'Date',
+                }) }}
+                {{ form_widget(refuel.date) }}
+        </div>
+
+        <div class="row">
+        	{{form_label(refuel.mileage)}} actual: {{ vehicle.odometer}} km
+                {{ form_widget(refuel.mileage, {'attr': {'placeholder': 'km', 'class': 'form-control'}})  }}
+        </div>
+
+		{# DODELAVKA #}
+		<div class="row">
+			<br>
+            {{form_label(refuel.gas_station)}} <a class="addStationFieldBtn">add gas station</a>
+			<div id="addStationField">
+				<form name="formName">
+					<input id="gasStationname"/>
+					<input type="button" value="Add" onclick="AddGasStation()" />
+					<p>
+				</form>
+			</div>
+			<div id="refreshHere">
+				{{ form_widget(refuel.gas_station, {'attr': {'class': 'form-control'}}) }}
+			</div>
+        </div>
+		{# //DODELAVKA #}
+
+        <div class="row">
+                <br>
+                <button type="submit" class="btn btn-primary btn-lg text-center">Add refueling</button>
+                <a class="btn btn-lg btn-danger col-sm-offset-2" href="{{ app.request.headers.get('referer') }}" role="button">Cancel</a>
+        </div>
+    </div>
+    </div>
+    
+    {{ form_end(refuel) }}
+
+{% endblock %}

@@ -1,0 +1,29 @@
+html {
+	scroll-behavior: smooth;
+	margin:0;
+    padding:0;
+}
+footer {
+	bottom: 0;
+    height: 100px;
+    width: 100%;
+	
+	background-color: grey;
+}
+footer p {
+	padding: 1%;
+}
+.content {
+	min-height: calc(100vh - 100px);
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+	background-color: #dddbdb;
+  }
+
+.btn-primary {
+	background-color: #333;
+	border-color: #333;
+	color:white;
+}

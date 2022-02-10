@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+{# Author: Tomáš Lisický (xlisic01) #}
+
+{% block title %}All services | CarInfo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{# DODELAVKA #}
+{% block javascripts %} 
+   	<script language = "javascript" src = "https://code.jquery.com/jquery-2.2.4.min.js"></script> 
+    <script src="../../../js/bootbox.js"></script>
+   	<script src="../../../js/bootstrap.js"></script>
+   	<script src="../../../js/popper.min.js"></script>
+   	<script language = "javascript">  
+	/*
+	 * Mazani zaznamu
+	 */
+	$(document).ready(function() {
+		$(".delete").click(function(){
+			var pid = $(this).attr("service-id");
+			let text = "Are you sure?";
+			if (confirm(text) == true) {
+				$url = '{{path('delete_service_record', { 'id': 0}) }}';
+				url = $url.replace("0",pid);
+					$.ajax({ 
+						url: url,
+						type: 'delete', 
+						success: function(result) {
+							document.getElementById('service-row-' + pid).remove();
+							console.log('Delete');
+						},
+						error: function(e){
+							console.log(e.responseText);
+						}
+					});	
+			} 
+		});
+	});
+   </script> 
+{% endblock %} 
+{# //DODELAVKA #} 
+
+
+{% block body %}
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<ul class="nav navbar-nav">
+		{% if app.user %}
+			<li><a href={{path('main')}}>Home</a></li>
+			<li><a href={{path('vehicle')}}>My Garage</a></li>
+		{% endif %}
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+		{% if app.user %}
+			<li><a href="#"><span class="glyphicon glyphicon-user"></span> {{ app.user.username }}</a></li>
+			<li><a href={{path('app_logout')}}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+		{% else %}
+			<li><a href={{path('app_register')}}><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+			<li><a href={{path('app_login')}}><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		{% endif %}
+		</ul>
+	</div>
+</nav>
+
+<br><br><br>
+
+<div class="content container">
+	<div class="row">
+		<div class="col-sm-2">
+			<h1 class="text-right">
+				<a class="btn btn-lg btn-primary glyphicon glyphicon-triangle-left" href="{{ path('vehicle_detail',{id:vehicle.id})}}" role="button"></a>
+			</h1> 
+		</div>
+		<div class="col-sm-8">
+			<h1 class="jumbotron text-center">All services</h1>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">date</th>
+						<th scope="col">operation</th>
+						<th scope="col">mileage</th>
+						<th scope="col">price</th>
+						<th scope="col">note</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for service in services %}
+						<tr id="service-row-{{service.id}}">
+							<td>{{service.date|date('d-m-Y')}}</td>
+							<td>{{ service.operation.name }}</td>
+							<td>{{ service.mileage }}</td>
+							<td>{{ service.price }}</td>
+							<td><a href="{{ path('service_detail', {id: service.id}) }}">see more</a></td>
+							{# DODELAVKA #}
+							<td>
+								<a class="delete btn btn-danger btn-xs glyphicon glyphicon-trash" service-id="{{ service.id }}" ></a>
+							</td>	
+							{# //DODELAVKA #}
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<div class="text-right">
+				<a class="btn btn-primary" href="{{ path('service_add', {id: vehicle.id}) }}" role="button">add new service record</a>
+			</div>
+		</div>
+		<div class="col-sm-2"></div>
+	</div>
+</div>
+
+<footer class="text-center">
+	<p>
+		Vyrobili: Filip Pospíšil (xpospi0f), Tomáš Lisický (xlisic01), Ondřej Bradáč (xbrada19)
+		<br>
+		za účelom projektu k predmetu ITU fakulty FIT, VUTBR - ITU projekt 2021
+	</p>
+</footer>
+
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends 'base.html.twig' %}
+{# Author: Tomáš Lisický (xlisic01) #}
+
+{% block title %}
+	CarInfo
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/search.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+	<div class="jumbotron text-center">
+		<h1>CarInfo</h1>
+	</div>
+	
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<ul class="nav navbar-nav">
+			{% if app.user %}
+				<li class="active"><a href={{path('main')}}>Home</a></li>
+				<li><a href={{path('vehicle')}}>My Garage</a></li>
+			{% endif %}
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+			{% if app.user %}
+				<li><a href="#"><span class="glyphicon glyphicon-user"></span> {{ app.user.username }}</a></li>
+				<li><a href={{path('app_logout')}}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+			{% else %}
+				<li><a href={{path('app_register')}}><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+				<li><a href={{path('app_login')}}><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+			{% endif %}
+			</ul>
+		</div>
+	</nav>
+	
+	<br><br>
+	
+	<div class="content container-fluid"> 
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+				{#User is logged in#}
+				{% if app.user %}
+					<table class="table table-hover" id="myTable">
+						<thead>
+							<tr>
+								<th scope="col">
+									<p>Search by...</p>
+									<input type="text" id="search_vehicle" onkeyup="search(0, 'search_vehicle')" placeholder="Vehicle" class="form-control">
+								</th>
+								<th scope="col">
+									<input type="text" id="search_brand" onkeyup="search(1, 'search_brand')" placeholder="Brand" class="form-control">
+								</th>
+								<th scope="col">
+									<input type="text" id="search_model" onkeyup="search(2, 'search_model')" placeholder="Model" class="form-control">
+								</th>
+								<th scope="col">
+									<input type="text" id="search_operation" onkeyup="search(3, 'search_operation')" placeholder="Operation" class="form-control">
+								</th>
+								<th scope="col">Interval</th>
+								<th scope="col">Last time</th>
+								<th scope="col">Due time</th>
+								<th scope="col">remains</th>
+							</tr>
+						</thead>
+							
+						<tbody> 
+						{#Nactu vsechny servisy#}
+						{% for service in services %}
+							{#Vyberu jen ty, ktere patri autum akatualniho uzivatele.#}
+							{% if user.id == service.vehicle.owner.id %}
+								{#Servisy co maji definovany casovy interval.#}
+								{% if service.operation.intervaltime != NULL %}
+									<tr>
+										<td>
+											<a href="{{ path('vehicle_detail', {id: service.vehicle.id}) }}">{{ service.vehicle.nickname }}</a>
+										</td>
+										<td>{{ service.vehicle.brand.name }} </td>
+										<td>{{ service.vehicle.model.name }} </td>
+										<td>{{ service.operation.name }} </td>
+										<td>{{ service.operation.intervaltime }} weeks</td>
+										<td>{{ service.date|date('d-m-Y')  }} </td>
+										<td>
+											{{ service.date|date_modify("+" ~ service.operation.intervaltime ~" weeks")|date("d-m-Y") }}
+										</td>
+										<td> 
+											{% set difference = date(date).diff(date(service.date|date_modify("+" ~ service.operation.intervaltime ~" weeks"))) %}
+											{% set leftDays = difference.days %}
+											{% if leftDays == 1 %}
+												1 day
+											{% else %}
+												{{ leftDays }} days
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
+								{#Je nastaveny kilometrovy interval#}
+								{% if service.operation.intervalkm != NULL %}
+									<tr>
+										<td>
+											<a href="{{ path('vehicle_detail', {id: service.vehicle.id}) }}">{{ service.vehicle.nickname }}</a>
+										</td>
+										<td>{{ service.vehicle.brand.name }} </td>
+										<td>{{ service.vehicle.model.name }} </td>
+										<td>{{ service.operation.name }} </td>
+										<td>{{ service.operation.intervalkm }} km</td>
+										<td>{{ service.mileage }} km</td>
+										<td>{{ service.mileage+service.operation.intervalkm }} km</td>
+										<td>{{ (service.mileage+service.operation.intervalkm)-service.vehicle.odometer }} km</td>
+									</tr>
+								{% endif %}
+							{% endif %}					
+						{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<h1>Welcome</h1>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+						sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+						Ut enim ad minim veniam, 
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+						Excepteur sint occaecat cupidatat non proident, 
+						sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, 
+						sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+						Ut enim ad minim veniam, 
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+					</p>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+						sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+						Ut enim ad minim veniam, 
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+						Excepteur sint occaecat cupidatat non proident, 
+						sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, 
+						sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+						Ut enim ad minim veniam, 
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+					</p>
+				{%endif%}
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+	</div>
+	 
+	<footer class="text-center">
+		<p>
+			Vyrobili: Filip Pospíšil (xpospi0f), Tomáš Lisický (xlisic01), Ondřej Bradáč (xbrada19)
+			<br>
+			za účelom projektu k predmetu ITU fakulty FIT, VUTBR - ITU projekt 2021
+		</p>
+	</footer>
+	
+{% endblock %}

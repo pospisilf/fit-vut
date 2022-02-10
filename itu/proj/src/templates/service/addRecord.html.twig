@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{# Author: Tomáš Lisický (xlisic01) #}
+
+{% block title %}Add service record | CarInfo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{% block body %}
+<div class="content container"> 
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4 well well-lg">
+			<h1 class="jumbotron text-center">Add service record</h1>
+			{{ form_start(servisRecord) }}
+				<div class="row">
+					<div class="col-sm-12 form-group">
+						<label>Service operation: </label>
+						<br>
+						{{ form_widget(servisRecord.operation, {'attr': {'class': 'form-control'}}) }}
+						<a href="{{path('add_service_operation', {id: vehicle.id})}}">define new service operation</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Mileage: </label>
+						<br>
+						{{ form_widget(servisRecord.mileage, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="col-sm-6 form-group">
+						<label>Current mileage: </label>
+						<br>
+						<span class="form-control">{{ vehicle.odometer }} km</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Date of service: </label>
+						<br>
+						{{ form_widget(servisRecord.date, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="col-sm-6 form-group">
+						<label>Price: </label>
+						<br>
+						{{ form_widget(servisRecord.price, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Note: </label>
+						<br>
+						{{ form_widget(servisRecord.note, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<button type="submit" class="btn btn-lg btn-primary">Add service record</button>
+				<a class="btn btn-lg btn-danger col-sm-offset-2" href="{{ app.request.headers.get('referer') }}" role="button">Cancel</a>
+
+			{{ form_end(servisRecord) }}
+		</div>
+		<div class="col-sm-4"></div>
+	</div>
+</div>
+{% endblock %}

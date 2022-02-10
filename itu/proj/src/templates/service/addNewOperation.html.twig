@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+{# Author: Tomáš Lisický (xlisic01) #}
+
+{% block title %}Define new service operation | CarInfo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{% block body %}
+<div class="content container"> 
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4 well well-lg">
+			<h1 class="jumbotron text-center">Define new service operation</h1>
+			{{ form_start(addNewOperation) }}
+				<div class="row">
+					<div class="col-sm-12 form-group">
+						<label>Name: </label>
+						<br>
+						{{ form_widget(addNewOperation.name, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12 form-group">
+						<label>Description: </label>
+						<br>
+						{{ form_widget(addNewOperation.description, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Interval [km]: </label>
+						<br>
+						{{ form_widget(addNewOperation.interval_km, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="col-sm-6 form-group">
+						<label>Interval [time]: </label>
+						<br>
+						{{ form_widget(addNewOperation.interval_time, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 form-group">
+						<label>Category: </label>
+						<br>
+						{{ form_widget(addNewOperation.category, {'attr': {'class': 'form-control'}}) }}
+						<a href="{{path('add_service_category')}}">add category</a>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-lg btn-primary">Add new operation</button>
+				<a class="btn btn-lg btn-danger col-sm-offset-2" href="{{ app.request.headers.get('referer') }}" role="button">Cancel</a>
+			{{ form_end(addNewOperation) }}
+		</div>
+		<div class="col-sm-4"></div>
+	</div>
+</div>
+
+{% endblock %}

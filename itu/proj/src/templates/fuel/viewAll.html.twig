@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+{# Author: Ondřej Bradáč (xbrada19)#}
+
+{% block title %}All refuels | CarInfo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href={{asset('css/style.css')}}>
+{% endblock %}
+
+{# DODELAVKA #}
+{% block javascripts %} 
+   	<script language = "javascript" src = "https://code.jquery.com/jquery-2.2.4.min.js"></script> 
+	<script src="../../../js/bootbox.js"></script>
+	<script src="../../../js/bootstrap.js"></script>
+	<script src="../../../js/popper.min.js"></script>
+   	<script language = "javascript">  
+	/*
+	 * Mazání záznamů z databáze. 
+	 */	
+	$(document).ready(function() {
+		$(".delete").click(function(){
+			var pid = $(this).attr("refuel-id");
+			let text = "Are you sure?";
+			if (confirm(text) == true) {
+				$url = '{{path('delete_refuel', { 'id': 0}) }}';
+				url = $url.replace("0",pid);
+					$.ajax({ 
+						url: url,
+						type: 'delete', 
+						success: function(result) {
+							document.getElementById('refuel-row-' + pid).remove();
+							console.log('Delete');
+						},
+						error: function(e){
+							console.log(e.responseText);
+						}
+					});	
+			} 
+		});
+	});
+   </script> 
+{% endblock %}
+{# //DODELAVKA #}  
+
+{% block body %}
+<nav class="navbar navbar-inverse navbar-static-top">
+	<div class="container-fluid">
+		<ul class="nav navbar-nav">
+		{% if app.user %}
+			<li><a href={{path('main')}}>Home</a></li>
+			<li><a href={{path('vehicle')}}>My Garage</a></li>
+		{% endif %}
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+		{% if app.user %}
+			<li><a href="#"><span class="glyphicon glyphicon-user"></span> {{ app.user.username }}</a></li>
+			<li><a href={{path('app_logout')}}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+		{% else %}
+			<li><a href={{path('app_register')}}><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+			<li><a href={{path('app_login')}}><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		{% endif %}
+		</ul>
+	</div>
+</nav>
+
+
+<div class="content container">
+	<div class="row">
+		<div class="col-sm-2">
+			<h1 class="text-right">
+				<a class="btn btn-lg btn-primary glyphicon glyphicon-triangle-left" href="{{ path('vehicle_detail',{id:vehicle.id})}}" role="button"></a>
+			</h1> 
+		</div>
+
+		<div class="col-sm-8">
+			<h1 class="jumbotron text-center">All refuels</h1>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">Date</th>
+						<th scope="col">Amount</th>
+						<th scope="col">Price</th>
+						<th scope="col">Mileage</th>
+						<th scope="col">Gas Station</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for refuel in refuels %}
+							<tr id="refuel-row-{{refuel.id}}">
+								<td>{{ refuel.date|date('d-m-Y') }}</td>
+								<td>{{ refuel.amount }} l</td>
+								<td>{{ refuel.price }},- </td>
+								<td>{{ refuel.mileage }} km</td>
+								<td>{{ refuel.gasstation.name }}</td>
+								{# DODELAVKA #}
+								<td>
+									<a class="delete btn btn-danger btn-xs glyphicon glyphicon-trash" refuel-id="{{ refuel.id }}" ></a>
+								</td>		
+								{# //DODELAVKA #}		
+							</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<div class="text-right">
+				<a href="{{path('fuel_refuel',{id:vehicle.id})}}" class="btn btn-primary" style="position: absolute;
+				right: 1em;" >Add refuel</a>
+				<p><br><br>
+			</div>
+		</div>
+		<div class="col-sm-2"></div>
+	</div>
+</div>
+
+<footer class="text-center">
+	<p>
+		Vyrobili: Filip Pospíšil (xpospi0f), Tomáš Lisický (xlisic01), Ondřej Bradáč (xbrada19)
+		<br>
+		za účelom projektu k predmetu ITU fakulty FIT, VUTBR - ITU projekt 2021
+	</p>
+</footer>
+
+{% endblock %}
