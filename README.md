@@ -42,8 +42,8 @@
   * IMP - Microprocessors and Embedded Systems [not done]
   * IMS - Modelling and Simulation
   * ISA - Network Applications and Network Administration [not done]
-  * ITT - Term Thesis [not done]
-  * ITU - User Interface Programming [not done]
+  * ITT - Term Thesis [not included]
+  * ITU - User Interface Programming
   * IDSY - Tax System of the Czech Republic [non-mandatory] [not included]
 
 
