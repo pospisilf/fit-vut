@@ -1,5 +1,7 @@
 # fit-vut
 
+[Thesis: Client application for Apache Camel language server](https://www.vut.cz/studenti/zav-prace/detail/148348)
+
 * 1BIT/Winter
   * IDA - Discrete Mathematics [not included]
   * IEL - Electronics for Information Technology [not included]
@@ -38,16 +40,16 @@
 
 
 * 3BIT/Winter
-  * IIS - Information Systems [not done]
-  * IMP - Microprocessors and Embedded Systems [not done]
+  * IIS - Information Systems [not included]
+  * IMP - Microprocessors and Embedded Systems [not included]
   * IMS - Modelling and Simulation
-  * ISA - Network Applications and Network Administration [not done]
+  * ISA - Network Applications and Network Administration [not included]
   * ITT - Term Thesis [not included]
   * ITU - User Interface Programming
   * IDSY - Tax System of the Czech Republic [non-mandatory] [not included]
 
 
 * 3BIT/Summer
-  * IBT - Bachelor's Thesis [not done]
+  * IBT - Bachelor's Thesis [folder name is thesis]
   * HVR - Leadership and Time Management [non-mandatory] [not included]
   * JA3 - Conversation through Hot Current Issues [non-mandatory] [not included]
